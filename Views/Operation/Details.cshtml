@@ -1,0 +1,65 @@
+@model Operation
+
+@{
+    ViewData["Title"] = "Operation Details";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>@Model.Name</h1>
+            <hr />
+            
+            <dl class="row">
+                <dt class="col-sm-3">Дата и час:</dt>
+                <dd class="col-sm-9">@Model.DateTime.ToString("dd/MM/yyyy HH:mm")</dd>
+                <dt class="col-sm-3">Статус:</dt>
+                <dd class="col-sm-9">
+                    <span class="badge bg-@(Model.Status == "Pending" ? "warning" : Model.Status == "Approved" ? "success" : "danger")">
+                        @(Model.Status == "Pending" ? "Очакване" : Model.Status == "Approved" ? "Одобрена" : "Отхвърлена")
+                    </span>
+                </dd>
+                <dt class="col-sm-3">Цена:</dt>
+                <dd class="col-sm-9">@Model.Price.ToString("0.00") €</dd>
+                <dt class="col-sm-3">Пациент:</dt>
+                <dd class="col-sm-9"><a href="javascript:void(0);" class="badge bg-info" id="patientLink" data-id="@Model.PatientId">Зареждане...</a></dd>
+                <dt class="col-sm-3">Лекар:</dt>
+                <dd class="col-sm-9"><a href="javascript:void(0);" class="badge bg-info" id="doctorLink" data-id="@Model.DoctorId">Зареждане...</a></dd>
+                <dt class="col-sm-3">Бележки:</dt>
+                <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Notes) ? "Няма" : Model.Notes)</dd>
+            </dl>
+
+            <script>
+                // Load and set patient link
+                fetch(`/api/patients/@Model.PatientId`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const patientLink = document.getElementById('patientLink');
+                        patientLink.textContent = data.name;
+                        patientLink.href = `/Patient/Details/@Model.PatientId`;
+                        patientLink.style.cursor = 'pointer';
+                    });
+
+                // Load and set doctor link
+                fetch(`/api/doctors/@Model.DoctorId`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const doctorLink = document.getElementById('doctorLink');
+                        doctorLink.textContent = data.name;
+                        doctorLink.href = `/Doctor/Details/@Model.DoctorId`;
+                        doctorLink.style.cursor = 'pointer';
+                    });
+            </script>
+
+            <div class="mb-4">
+                <h3>Консултации</h3>
+                <a asp-action="Consultations" asp-route-id="@Model.Id" class="btn btn-info btn-sm">Виж консултации (@Model.Consultations.Count)</a>
+            </div>
+
+            <div class="mt-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактирай</a>
+                <a asp-action="Index" class="btn btn-secondary">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>

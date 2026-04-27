@@ -1,0 +1,125 @@
+@model OperationCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Operation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Добави нова операция</h1>
+            <hr />
+            
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Notes" class="form-label"></label>
+                    <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="DateTime" class="form-label"></label>
+                    <input asp-for="DateTime" type="date" class="form-control" />
+                    <span asp-validation-for="DateTime" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Price" class="form-label"></label>
+                    <div class="input-group">
+                        <input asp-for="Price" type="number" step="0.01" class="form-control" />
+                        <span class="input-group-text">€</span>
+                    </div>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">Пациент</label>
+                    <input type="text" list="patientList" id="patientSearch" class="form-control" placeholder="Начнете да пишете име на пациент..." />
+                    <datalist id="patientList"></datalist>
+                    <input asp-for="PatientId" type="hidden" id="patientId" />
+                    <span asp-validation-for="PatientId" class="text-danger"></span>
+                    <small class="form-text text-muted">Вберете пациент от списъка</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">Лекар</label>
+                    <input type="text" list="doctorList" id="doctorSearch" class="form-control" placeholder="Начнете да пишете име на лекар..." />
+                    <datalist id="doctorList"></datalist>
+                    <input asp-for="DoctorId" type="hidden" id="doctorId" />
+                    <span asp-validation-for="DoctorId" class="text-danger"></span>
+                    <small class="form-text text-muted">Вберете лекар от списъка</small>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Създай</button>
+                    <a asp-action="Index" class="btn btn-secondary">Отмени</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Autocomplete for Patients
+        fetch('/api/patients')
+            .then(response => response.json())
+            .then(data => {
+                const patientList = document.getElementById('patientList');
+                data.forEach(patient => {
+                    const option = document.createElement('option');
+                    option.value = patient.name;
+                    option.dataset.id = patient.id;
+                    patientList.appendChild(option);
+                });
+            });
+
+        document.getElementById('patientSearch').addEventListener('change', function() {
+            const selectedOption = document.querySelector('#patientList option[value="' + this.value + '"]');
+            if (selectedOption) {
+                document.getElementById('patientId').value = selectedOption.dataset.id;
+            }
+        });
+
+        // Autocomplete for Doctors
+        fetch('/api/doctors')
+            .then(response => response.json())
+            .then(data => {
+                const doctorList = document.getElementById('doctorList');
+                data.forEach(doctor => {
+                    const option = document.createElement('option');
+                    option.value = doctor.name;
+                    option.dataset.id = doctor.id;
+                    doctorList.appendChild(option);
+                });
+            });
+
+        document.getElementById('doctorSearch').addEventListener('change', function() {
+            const selectedOption = document.querySelector('#doctorList option[value="' + this.value + '"]');
+            if (selectedOption) {
+                document.getElementById('doctorId').value = selectedOption.dataset.id;
+            }
+        });
+
+        // Populate hidden fields on form submit
+        document.querySelector('form').addEventListener('submit', function() {
+            if (!document.getElementById('patientId').value) {
+                const selectedOption = document.querySelector('#patientList option[value="' + document.getElementById('patientSearch').value + '"]');
+                if (selectedOption) document.getElementById('patientId').value = selectedOption.dataset.id;
+            }
+            if (!document.getElementById('doctorId').value) {
+                const selectedOption = document.querySelector('#doctorList option[value="' + document.getElementById('doctorSearch').value + '"]');
+                if (selectedOption) document.getElementById('doctorId').value = selectedOption.dataset.id;
+            }
+        });
+    </script>
+}

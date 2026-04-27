@@ -1,8 +1,62 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Начало";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h1 class="display-4">Добре дошли в OpOrg</h1>
+            <p class="lead">Система за управление на операции, консултации и пациентски събития.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">👨‍⚕️ Лекари</h5>
+                    <p class="card-text">Управление на лекарски профили, видяне на техните операции и консултации.</p>
+                    <a asp-controller="Doctor" asp-action="Index" class="btn btn-primary w-100">Преди към лекари</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">👤 Пациенти</h5>
+                    <p class="card-text">Управление на пациентски данни, операции и събитията от техния живот.</p>
+                    <a asp-controller="Patient" asp-action="Index" class="btn btn-primary w-100">Преди към пациенти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">🏥 Операции</h5>
+                    <p class="card-text">Планиране на операции, управление на консултации и цени.</p>
+                    <a asp-controller="Operation" asp-action="Index" class="btn btn-primary w-100">Преди към операции</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Последни Функции</h5>
+                    <ul class="list-unstyled">
+                        <li>✓ Управление на лекари с техни УИН номера</li>
+                        <li>✓ Управление на пациенти и техните операции</li>
+                        <li>✓ Планиране и управление на операции с цени</li>
+                        <li>✓ Управление на консултации за операции</li>
+                        <li>✓ Управление на събитията в живота на пациента</li>
+                        <li>✓ Търсене на операции по име</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

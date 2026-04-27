@@ -1,0 +1,24 @@
+@model Patient
+
+@{
+    ViewData["Title"] = "Patient Details";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>@Model.Name</h1>
+            <hr />
+            
+            <div class="btn-group mb-3" role="group">
+                <a asp-action="Operations" asp-route-id="@Model.Id" class="btn btn-outline-primary">Операции</a>
+                <a asp-action="Events" asp-route-id="@Model.Id" class="btn btn-outline-primary">События</a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning">Редактирай</a>
+            </div>
+
+            <div class="mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+@model ConsultationCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Consultation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Добави консултация</h1>
+            <hr />
+            
+            <form asp-action="CreateConsultation" asp-route-id="@Model.OperationId">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <input type="hidden" asp-for="OperationId" />
+                
+                <div class="form-group mb-3">
+                    <label asp-for="ConsultantName" class="form-label"></label>
+                    <input asp-for="ConsultantName" class="form-control" />
+                    <span asp-validation-for="ConsultantName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="UIN" class="form-label"></label>
+                    <input asp-for="UIN" class="form-control" />
+                    <span asp-validation-for="UIN" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="DateTime" class="form-label"></label>
+                    <input asp-for="DateTime" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                    <span asp-validation-for="DateTime" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ConsultingDepartment" class="form-label"></label>
+                    <input asp-for="ConsultingDepartment" class="form-control" />
+                    <span asp-validation-for="ConsultingDepartment" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Conclusion" class="form-label"></label>
+                    <textarea asp-for="Conclusion" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Conclusion" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Създай</button>
+                    <a asp-action="Consultations" asp-route-id="@Model.OperationId" class="btn btn-secondary">Отмени</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

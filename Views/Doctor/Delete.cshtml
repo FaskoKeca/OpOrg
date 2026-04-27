@@ -1,0 +1,27 @@
+@model Doctor
+
+@{
+    ViewData["Title"] = "Delete Doctor";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="alert alert-danger">
+                <h3>Вие сигурни ли че желаете да изтриете този лекар?</h3>
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-2">Име:</dt>
+                <dd class="col-sm-10">@Model.Name</dd>
+                <dt class="col-sm-2">УИН:</dt>
+                <dd class="col-sm-10">@Model.UIN</dd>
+            </dl>
+
+            <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-danger">Изтрий</button>
+                <a asp-action="Index" class="btn btn-secondary">Отмени</a>
+            </form>
+        </div>
+    </div>
+</div>

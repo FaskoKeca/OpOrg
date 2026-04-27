@@ -1,0 +1,53 @@
+@model List<Consultation>
+
+@{
+    ViewData["Title"] = "Consultations";
+    var operationId = ViewBag.OperationId ?? (Model.FirstOrDefault()?.OperationId ?? 0);
+}
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>Консултации</h1>
+        </div>
+        <div class="col-md-4 text-end">
+            <a asp-action="CreateConsultation" asp-route-id="@operationId" class="btn btn-primary">+ Добави консултация</a>
+            <a asp-action="Details" asp-route-id="@operationId" class="btn btn-secondary">Назад</a>
+        </div>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-info">
+            Няма консултации за тази операция.
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Консултант</th>
+                    <th>УИН</th>
+                    <th>Отделение</th>
+                    <th>Дата</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var consultation in Model)
+                {
+                    <tr>
+                        <td>@consultation.ConsultantName</td>
+                        <td>@consultation.UIN</td>
+                        <td>@consultation.ConsultingDepartment</td>
+                        <td>@consultation.DateTime.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <a asp-action="DeleteConsultation" asp-route-id="@consultation.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

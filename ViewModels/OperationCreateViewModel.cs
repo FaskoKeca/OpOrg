@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OpOrg.Models;
+namespace OpOrg.ViewModels;
 
-public class Operation
+public class OperationCreateViewModel
 {
     public int Id { get; set; }
 
@@ -14,9 +14,9 @@ public class Operation
 
     [Required(ErrorMessage = "Дата на операцията/процедурата е задължителна.")]
     [DataType(DataType.Date)]
-    public DateTime DateTime { get; set; }
+    public DateTime DateTime { get; set; } = DateTime.Now;
 
-    public List<Consultation> Consultations { get; set; } = new List<Consultation>();
+    public List<ConsultationCreateViewModel> Consultations { get; set; } = new List<ConsultationCreateViewModel>();
 
     public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
 
@@ -29,4 +29,8 @@ public class Operation
 
     [Required(ErrorMessage = "Лекарят е задължителен.")]
     public int DoctorId { get; set; }
+
+    // Navigation properties for display
+    public string? PatientName { get; set; }
+    public string? DoctorName { get; set; }
 }

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OpOrg.Models;
+namespace OpOrg.ViewModels;
 
-public class Event
+public class EventCreateViewModel
 {
     public int Id { get; set; }
 
@@ -11,10 +11,11 @@ public class Event
 
     [Required(ErrorMessage = "Дата и час на събитието са задължителни.")]
     [DataType(DataType.Date)]
-    public DateTime DateTime { get; set; }
+    public DateTime DateTime { get; set; } = DateTime.Now;
 
     public string Description { get; set; } = string.Empty;
 
     //Foreign Keys
     public int PatientId { get; set; }
+    public string? PatientName { get; set; }
 }

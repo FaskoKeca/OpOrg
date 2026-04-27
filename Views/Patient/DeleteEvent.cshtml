@@ -1,0 +1,27 @@
+@model Event
+
+@{
+    ViewData["Title"] = "Delete Event";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="alert alert-danger">
+                <h3>Вие сигурни ли че желаете да изтриете това събитие?</h3>
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-2">Заглавие:</dt>
+                <dd class="col-sm-10">@Model.Title</dd>
+                <dt class="col-sm-2">Дата:</dt>
+                <dd class="col-sm-10">@Model.DateTime.ToString("dd/MM/yyyy HH:mm")</dd>
+            </dl>
+
+            <form asp-action="DeleteEventConfirmed" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-danger">Изтрий</button>
+                <a asp-action="Events" asp-route-id="@Model.PatientId" class="btn btn-secondary">Отмени</a>
+            </form>
+        </div>
+    </div>
+</div>

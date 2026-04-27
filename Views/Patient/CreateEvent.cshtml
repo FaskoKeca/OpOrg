@@ -1,0 +1,47 @@
+@model EventCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Event";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Добави ново събитие</h1>
+            <hr />
+            
+            <form asp-action="CreateEvent" asp-route-id="@Model.PatientId">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <input type="hidden" asp-for="PatientId" />
+                
+                <div class="form-group mb-3">
+                    <label asp-for="Title" class="form-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="DateTime" class="form-label"></label>
+                    <input asp-for="DateTime" type="date" class="form-control" />
+                    <span asp-validation-for="DateTime" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Създай</button>
+                    <a asp-action="Events" asp-route-id="@Model.PatientId" class="btn btn-secondary">Отмени</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
