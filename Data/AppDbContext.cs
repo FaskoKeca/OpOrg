@@ -12,6 +12,8 @@ public class AppDbContext : DbContext
     public DbSet<Doctor> Doctors => Set<Doctor>();
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<Operation> Operations => Set<Operation>();
+    public DbSet<Consultation> Consultations => Set<Consultation>();
+    public DbSet<Event> Events => Set<Event>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,12 +31,15 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Patient>(entity =>
         {
-            entity.HasIndex(p => p.EGN).IsUnique();
-
             entity.HasMany(p => p.Operations)
                 .WithOne()
                 .HasForeignKey(o => o.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasMany(p => p.Events)
+                .WithOne()
+                .HasForeignKey(e => e.PatientId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Operation>(entity =>
@@ -43,13 +48,20 @@ public class AppDbContext : DbContext
                 .HasMaxLength(100)
                 .IsRequired();
 
-            entity.Property(o => o.Description)
-                .HasMaxLength(500)
+            entity.Property(o => o.Notes)
+                .HasMaxLength(1000);
+
+            entity.Property(o => o.Price)
                 .IsRequired();
 
             entity.Property(o => o.Status)
                 .HasMaxLength(50)
                 .HasDefaultValue("Pending");
+
+            entity.HasMany(o => o.Consultations)
+                .WithOne(c => c.Operation)
+                .HasForeignKey(c => c.OperationId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.Property(o => o.DateTime)
                 .IsRequired();
